@@ -1,6 +1,7 @@
 package com.project.inventorydistribution.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -14,7 +15,8 @@ import java.util.Collection;
 @Entity
 @Setter
 @Getter
-@Table(name = "Agent")
+@Table(name = "Agent", uniqueConstraints = @UniqueConstraint(columnNames = "agentUserId"))
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Agent implements UserDetails {
 
     @Id
@@ -25,7 +27,7 @@ public class Agent implements UserDetails {
 
     @Column(name = "agentName")
     private String agentName;
-    @Column(name = "agentUserId")
+    @Column(name = "agentUserId",nullable = false, unique = true)
     private String agentUserId;
     @Column(name = "agentPassword")
     private String agentPassword;
@@ -40,7 +42,7 @@ public class Agent implements UserDetails {
     @Column(name = "agentLoginTime")
     private String agentLoginTime;
     @Column(name = "status")
-    private String status;
+    private boolean status;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "roleId")
     private Role role;
@@ -87,6 +89,6 @@ public class Agent implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

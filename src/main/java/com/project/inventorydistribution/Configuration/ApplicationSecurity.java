@@ -1,6 +1,7 @@
 package com.project.inventorydistribution.Configuration;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -16,8 +17,10 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @RequiredArgsConstructor
 public class ApplicationSecurity {
 
-    private final JwtRequestFilter jwtRequestFilter;
-    private final AuthenticationProvider authenticationProvider;
+    @Autowired
+    private JwtRequestFilter jwtRequestFilter;
+    @Autowired
+    private AuthenticationProvider authenticationProvider;
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {

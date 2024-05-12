@@ -34,4 +34,8 @@ public class AgentController {
     public ResponseEntity<List<Agent>> getAllAgent() throws Exception{
         return agentService.getAllAgent();
     }
+    @PutMapping("/updateAgent/{agentId}")
+    public ResponseEntity<Object> updateAgent(@PathVariable long agentId,Agent agent) throws Exception{
+        return agentService.updateAgentService(agentId,agent);
+    }
 }
