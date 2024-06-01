@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
@@ -28,13 +29,16 @@ public class ApplicationSecurity {
          http.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(a-> a.
                         requestMatchers("/agentAuth/**").permitAll().
+                        //requestMatchers("/customer/**").permitAll().
                         requestMatchers("/swagger-path/**").permitAll().
                         requestMatchers("/v3/api-docs/**").permitAll().
                         requestMatchers("/swagger-ui/**").permitAll()
+
                         .anyRequest().authenticated())
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                         .authenticationProvider(authenticationProvider)
                                 .addFilterBefore(jwtRequestFilter,UsernamePasswordAuthenticationFilter.class);
+        // http.cors(Customizer.withDefaults());
         return http.build();
     }
 

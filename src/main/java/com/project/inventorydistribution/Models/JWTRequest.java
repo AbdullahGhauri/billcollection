@@ -1,4 +1,4 @@
-package com.project.inventorydistribution.DTOs;
+package com.project.inventorydistribution.Models;
 
 import lombok.*;
 

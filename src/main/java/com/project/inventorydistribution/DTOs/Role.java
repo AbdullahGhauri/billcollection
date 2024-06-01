@@ -1,8 +1,11 @@
 package com.project.inventorydistribution.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.util.List;
@@ -10,7 +13,10 @@ import java.util.List;
 @Entity
 @Setter
 @Getter
+@NoArgsConstructor
+@AllArgsConstructor
 @Table(name = "Role")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Role {
 
     @Id
@@ -26,11 +32,12 @@ public class Role {
     @Column(name = "dateTime")
     private String dateTime;
 
-    @JsonIgnore
-    @OneToOne(mappedBy = "role")
-    private Agent agent;
+    public Role(String roleName){
+        this.roleName = roleName;
+    }
 
     @JsonIgnore
     @OneToMany(mappedBy = "role",cascade = CascadeType.ALL)
-    private List<ScreenTab> screenTabList;
+    private List<Agent> agent;
+
 }

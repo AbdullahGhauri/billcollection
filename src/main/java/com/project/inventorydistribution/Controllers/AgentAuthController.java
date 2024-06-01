@@ -1,18 +1,16 @@
 package com.project.inventorydistribution.Controllers;
 
 import com.project.inventorydistribution.DTOs.Agent;
-import com.project.inventorydistribution.DTOs.JWTRequest;
-import com.project.inventorydistribution.DTOs.JWTResponse;
+import com.project.inventorydistribution.Models.JWTRequest;
+import com.project.inventorydistribution.Models.JWTResponse;
 import com.project.inventorydistribution.Services.AgentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/agentAuth")
+@CrossOrigin(origins = "*")
 public class AgentAuthController {
     @Autowired
     AgentService agentService;

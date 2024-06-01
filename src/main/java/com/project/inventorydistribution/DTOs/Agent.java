@@ -8,6 +8,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
+import java.util.List;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -43,19 +45,21 @@ public class Agent implements UserDetails {
     private String agentLoginTime;
     @Column(name = "status")
     private boolean status;
-    @OneToOne(cascade = CascadeType.ALL)
+
+    @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "roleId")
     private Role role;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "departmentId")
-    private Department department;
+
+
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "addressId")
     private Address address;
 
     @JsonIgnore
-    @OneToOne(mappedBy = "agent")
-    private OrderDetail orderDetail;
+    @OneToMany(mappedBy = "agent",cascade = CascadeType.ALL)
+    private List<BillCollection> billCollections;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

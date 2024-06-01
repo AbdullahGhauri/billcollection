@@ -1,6 +1,7 @@
 package com.project.inventorydistribution.DTOs;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -9,6 +10,7 @@ import lombok.Setter;
 @Setter
 @Getter
 @Table(name = "Address")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Address {
 
     @Id
@@ -19,15 +21,8 @@ public class Address {
     private String addressDetail;
     @Column(name = "region")
     private String region;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "cityId")
-    private City city;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "provinceId")
-    private Province province;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "countryId")
-    private Country country;
+
+
 
     @JsonIgnore
     @OneToOne(mappedBy = "customerAddress")

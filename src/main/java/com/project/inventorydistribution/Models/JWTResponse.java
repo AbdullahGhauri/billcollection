@@ -1,7 +1,7 @@
-package com.project.inventorydistribution.DTOs;
+package com.project.inventorydistribution.Models;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.project.inventorydistribution.DTOs.Agent;
 import lombok.*;
 
 @Getter
