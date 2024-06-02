@@ -3,8 +3,10 @@ package com.project.inventorydistribution.Services;
 import com.project.inventorydistribution.DTOs.Customer;
 import com.project.inventorydistribution.Models.ErrorResponse;
 import com.project.inventorydistribution.Models.CustomerResponse;
+import com.project.inventorydistribution.Models.JWTResponse;
 import com.project.inventorydistribution.Repositories.CustomerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,7 @@ public class CustomerService {
     private String NO_RECORD_FOUND="No record found";
     private String CUSTOMER_NOT_FOUND = "Customer not found";
     private String CUSTOMER_BODY_EMPTY = "Customer body empty";
+    private String CUSTOMER_ALREADY_EXISTS = "Customer already exists";
 
 
 
@@ -47,8 +50,12 @@ public class CustomerService {
 
     public ResponseEntity<CustomerResponse> addCustomerService(Customer customer) {
         try{
+            customer.setCustomerStatus(true);
             return ResponseEntity.ok(new CustomerResponse(customerRepository.save(customer)));
-        }catch(Exception e){
+        }catch (DataIntegrityViolationException ex) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomerResponse(new ErrorResponse(CUSTOMER_ALREADY_EXISTS)));
+        }
+        catch(Exception e){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new CustomerResponse(new ErrorResponse(e.toString())));
         }
     }

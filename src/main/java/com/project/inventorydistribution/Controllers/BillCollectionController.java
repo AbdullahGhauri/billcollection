@@ -5,6 +5,7 @@ import com.project.inventorydistribution.DTOs.BillCollection;
 import com.project.inventorydistribution.DTOs.Customer;
 import com.project.inventorydistribution.Models.AgentResponse;
 import com.project.inventorydistribution.Models.BillCollectionResponse;
+import com.project.inventorydistribution.Models.CustomerBillStatusRequest;
 import com.project.inventorydistribution.Models.CustomerResponse;
 import com.project.inventorydistribution.Services.AgentService;
 import com.project.inventorydistribution.Services.BillCollectionService;
@@ -36,4 +37,9 @@ public class BillCollectionController {
     public ResponseEntity<BillCollectionResponse> updateBillCollection(@PathVariable long billCollectionId, @RequestBody BillCollection billCollection){
         return billCollectionService.updateBillCollectionService(billCollectionId,billCollection);
     }
+    @PostMapping(value = "/getPendingOrReceivedCustomer")
+    public ResponseEntity<CustomerResponse> getPendingOrReceivedCustomer(@RequestBody CustomerBillStatusRequest sustomerBillStatusRequest){
+        return billCollectionService.getPendingOrReceivedCustomerService(sustomerBillStatusRequest);
+    }
+
 }

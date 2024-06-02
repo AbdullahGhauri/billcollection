@@ -13,7 +13,7 @@ import java.util.Date;
 import java.util.List;
 
 @Entity
-@Table(name = "Customer")
+@Table(name = "Customer",uniqueConstraints = @UniqueConstraint(columnNames = "customerCNIC"))
 @Setter
 @Getter
 @JsonInclude(JsonInclude.Include.NON_NULL)
@@ -27,7 +27,7 @@ public class Customer {
     @Column(name = "customerName")
     private String customerName;
 
-    @Column(name = "customerCNIC")
+    @Column(name = "customerCNIC",nullable = false,unique = true)
     private String customerCNIC;
 
     @Column(name = "customerContactNo")
