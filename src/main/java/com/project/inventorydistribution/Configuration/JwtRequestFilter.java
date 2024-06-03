@@ -1,6 +1,8 @@
 package com.project.inventorydistribution.Configuration;
 
 import com.project.inventorydistribution.Configuration.Jwtutil;
+import com.project.inventorydistribution.Exceptions.InvalidTokenException;
+import com.project.inventorydistribution.Exceptions.MissingTokenException;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,6 +28,9 @@ public class JwtRequestFilter extends OncePerRequestFilter {
     @Autowired
     UserDetailsService userDetailsService;
 
+    private final String INVALID_JWT_TOKEN = "Invalid JWT token";
+    private final String MISSING_HEADER_AUTH = "Missing Authorization header";
+
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         final String authorizationHeader = request.getHeader("Authorization");
@@ -34,8 +39,14 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String jwt = null;
 
         if(authorizationHeader !=null && authorizationHeader.startsWith("Bearer ")){
+            try{
             jwt = authorizationHeader.substring(7);
             username = jwtutil.extractUsername(jwt);
+        } catch (Exception e) {
+            throw new InvalidTokenException(INVALID_JWT_TOKEN);
+        }
+        }else {
+            throw new MissingTokenException(MISSING_HEADER_AUTH);
         }
         if(username != null && SecurityContextHolder.getContext().getAuthentication() == null){
             UserDetails userDetails = this.userDetailsService.loadUserByUsername(username);
@@ -47,7 +58,12 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                         .setDetails(new WebAuthenticationDetailsSource().buildDetails(request));
                 SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
             }
+            else{
+                throw new InvalidTokenException(INVALID_JWT_TOKEN);
+            }
         }
+        
+
         filterChain.doFilter(request,response);
 
     }

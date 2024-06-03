@@ -3,13 +3,11 @@ package com.project.inventorydistribution.Controllers;
 import com.project.inventorydistribution.DTOs.Agent;
 import com.project.inventorydistribution.DTOs.BillCollection;
 import com.project.inventorydistribution.DTOs.Customer;
-import com.project.inventorydistribution.Models.AgentResponse;
-import com.project.inventorydistribution.Models.BillCollectionResponse;
-import com.project.inventorydistribution.Models.CustomerBillStatusRequest;
-import com.project.inventorydistribution.Models.CustomerResponse;
+import com.project.inventorydistribution.Models.*;
 import com.project.inventorydistribution.Services.AgentService;
 import com.project.inventorydistribution.Services.BillCollectionService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,9 +35,11 @@ public class BillCollectionController {
     public ResponseEntity<BillCollectionResponse> updateBillCollection(@PathVariable long billCollectionId, @RequestBody BillCollection billCollection){
         return billCollectionService.updateBillCollectionService(billCollectionId,billCollection);
     }
-    @PostMapping(value = "/getPendingOrReceivedCustomer")
-    public ResponseEntity<CustomerResponse> getPendingOrReceivedCustomer(@RequestBody CustomerBillStatusRequest sustomerBillStatusRequest){
+    @PostMapping(value = "/getCustomerBillStatus")
+    public ResponseEntity<CustomerResponse> getPendingOrReceivedCustomer(@RequestBody CustomerBillStatusRequest sustomerBillStatusRequest)throws Exception{
+
         return billCollectionService.getPendingOrReceivedCustomerService(sustomerBillStatusRequest);
+
     }
 
 }
