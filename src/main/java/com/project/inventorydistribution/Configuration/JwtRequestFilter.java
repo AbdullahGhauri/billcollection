@@ -62,7 +62,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
                 throw new InvalidTokenException(INVALID_JWT_TOKEN);
             }
         }
-        
+
 
         filterChain.doFilter(request,response);
 
